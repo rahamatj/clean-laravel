@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Presenters\Todo\GetAllTodosPresenter;
-use App\Http\Presenters\Todo\StoreTodoPresenter;
-use App\Http\Requests\Todo\Store;
-use CleanLaravel\Modules\Todo\GetAll\EntityGateway as GetAllTodosEntityGAteway;
 use CleanLaravel\Modules\Todo\GetAll\Interactor as GetAllTodosInteractor;
-use CleanLaravel\Modules\Todo\Store\Models\RequestModel as StoreTodoRequestModel;
-use CleanLaravel\Modules\Todo\Store\EntityGateway as StoreTodoEntityGateway;
+use CleanLaravel\Modules\Todo\GetAll\EntityGateway as GetAllTodosEntityGAteway;
+use App\Http\Presenters\Todo\GetAllTodosPresenter;
+
+use App\Http\Requests\Todo\Store;
 use CleanLaravel\Modules\Todo\Store\Interactor as StoreTodoInteractor;
+use CleanLaravel\Modules\Todo\Store\EntityGateway as StoreTodoEntityGateway;
+use App\Http\Presenters\Todo\StoreTodoPresenter;
+use CleanLaravel\Modules\Todo\Store\Models\RequestModel as StoreTodoRequestModel;
+
+use CleanLaravel\Modules\Todo\GetOne\Interactor as GetOneTodoInteractor;
+use CleanLaravel\Modules\Todo\GetOne\EntityGateway as GetOneTodoEntityGateway;
+use App\Http\Presenters\Todo\GetOneTodoPresenter;
+use CleanLaravel\Modules\Todo\GetOne\Models\RequestModel as GetOneTodoRequestModel;
+
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -57,7 +64,15 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        $interactor = new GetOneTodoInteractor(
+          new GetOneTodoEntityGateway(),
+          new GetOneTodoPresenter()
+        );
+
+        $requestModel = new GetOneTodoRequestModel();
+        $requestModel->id = $id;
+
+        return $interactor->getOne($requestModel);
     }
 
     /**
