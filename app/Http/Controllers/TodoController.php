@@ -50,7 +50,6 @@ class TodoController extends Controller
     {
         $requestModel = new StoreTodoRequestModel();
         $requestModel->todo = $request->todo;
-        $requestModel->is_completed = $request->is_completed ?: false;
 
         return $requestModel;
     }

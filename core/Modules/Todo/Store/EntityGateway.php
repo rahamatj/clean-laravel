@@ -11,7 +11,7 @@ class EntityGateway implements EntityGatewayInterface
     {
         $newTodo = new Todo();
         $newTodo->todo = $requestModel->todo;
-        $newTodo->is_completed = $requestModel->is_completed;
+        $newTodo->is_completed = false;
         $newTodo->save();
 
         return $newTodo;

@@ -14,8 +14,7 @@ class Store extends FormRequest
     public function rules()
     {
         return [
-            'todo' => 'bail|required|string|max:255',
-            'is_completed' => 'boolean'
+            'todo' => 'bail|required|string|max:255'
         ];
     }
 }
