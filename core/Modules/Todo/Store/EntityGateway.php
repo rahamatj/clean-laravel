@@ -3,11 +3,11 @@
 namespace CleanLaravel\Modules\Todo\Store;
 
 use App\Models\Todo;
-use CleanLaravel\Modules\Todo\Store\Models\StoreTodoRequestModel;
+use CleanLaravel\Modules\Todo\Store\Models\RequestModel;
 
-class StoreTodoEntityGateway implements StoreTodoEntityGatewayInterface
+class EntityGateway implements EntityGatewayInterface
 {
-    public function store(StoreTodoRequestModel $requestModel)
+    public function store(RequestModel $requestModel)
     {
         $newTodo = new Todo();
         $newTodo->todo = $requestModel->todo;

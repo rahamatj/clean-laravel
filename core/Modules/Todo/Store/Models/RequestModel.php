@@ -2,7 +2,7 @@
 
 namespace CleanLaravel\Modules\Todo\Store\Models;
 
-class StoreTodoRequestModel
+class RequestModel
 {
     public $todo;
     public $is_completed;

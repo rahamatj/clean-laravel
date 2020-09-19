@@ -4,16 +4,16 @@ namespace CleanLaravel\Modules\Todo\Store;
 
 use CleanLaravel\Modules\Todo\Store\Boundaries\InputBoundary;
 use CleanLaravel\Modules\Todo\Store\Boundaries\OutputBoundary;
-use CleanLaravel\Modules\Todo\Store\Models\StoreTodoRequestModel;
-use CleanLaravel\Modules\Todo\Store\Models\StoreTodoResponseModel;
+use CleanLaravel\Modules\Todo\Store\Models\RequestModel;
+use CleanLaravel\Modules\Todo\Store\Models\ResponseModel;
 
-class StoreTodoInteractor implements InputBoundary
+class Interactor implements InputBoundary
 {
     private $entityGateway;
     private $outputBoundary;
 
     public function __construct(
-        StoreTodoEntityGatewayInterface $entityGateway,
+        EntityGatewayInterface $entityGateway,
         OutputBoundary $outputBoundary
     )
     {
@@ -21,11 +21,11 @@ class StoreTodoInteractor implements InputBoundary
         $this->outputBoundary = $outputBoundary;
     }
 
-    public function store(StoreTodoRequestModel $requestModel)
+    public function store(RequestModel $requestModel)
     {
         $newTodo = $this->entityGateway->store($requestModel);
 
-        $responseModel = new StoreTodoResponseModel();
+        $responseModel = new ResponseModel();
         $responseModel->id = $newTodo->id;
         $responseModel->todo = $newTodo->todo;
         $responseModel->is_completed = $newTodo->is_completed;

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Presenters\Todo\GetAllTodosPresenter;
 use App\Http\Presenters\Todo\StoreTodoPresenter;
-use CleanLaravel\Modules\Todo\Store\Models\StoreTodoRequestModel;
-use CleanLaravel\Modules\Todo\Store\StoreTodoEntityGateway;
-use CleanLaravel\Modules\Todo\Store\StoreTodoInteractor;
+use App\Http\Requests\Todo\Store;
+use CleanLaravel\Modules\Todo\GetAll\EntityGateway as GetAllTodosEntityGAteway;
+use CleanLaravel\Modules\Todo\GetAll\Interactor as GetAllTodosInteractor;
+use CleanLaravel\Modules\Todo\Store\Models\RequestModel as StoreTodoRequestModel;
+use CleanLaravel\Modules\Todo\Store\EntityGateway as StoreTodoEntityGateway;
+use CleanLaravel\Modules\Todo\Store\Interactor as StoreTodoInteractor;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -17,7 +21,12 @@ class TodoController extends Controller
      */
     public function index()
     {
-        //
+        $interactor = new GetAllTodosInteractor(
+            new GetAllTodosEntityGAteway(),
+            new GetAllTodosPresenter()
+        );
+
+        return $interactor->getAll();
     }
 
     /**
@@ -26,7 +35,7 @@ class TodoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
         $interactor = new StoreTodoInteractor(
             new StoreTodoEntityGateway(),

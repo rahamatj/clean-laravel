@@ -2,7 +2,7 @@
 
 namespace CleanLaravel\Modules\Todo\Store\Models;
 
-class StoreTodoResponseModel
+class ResponseModel
 {
     public $id;
     public $todo;

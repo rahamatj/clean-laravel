@@ -1,10 +1,10 @@
 <?php
 
-namespace CleanLaravel\Modules\Todo\Store\Boundaries;
+namespace CleanLaravel\Modules\Todo\Store;
 
 use CleanLaravel\Modules\Todo\Store\Models\RequestModel;
 
-interface InputBoundary
+interface EntityGatewayInterface
 {
     public function store(RequestModel $requestModel);
 }
