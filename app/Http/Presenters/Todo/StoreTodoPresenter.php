@@ -10,6 +10,9 @@ class StoreTodoPresenter implements OutputBoundary
 {
     public function respond(ResponseModel $responseModel)
     {
-        return new TodoResource($responseModel);
+        return response()->json([
+            'message' => $responseModel->message,
+            'data' => new TodoResource($responseModel)
+        ]);
     }
 }

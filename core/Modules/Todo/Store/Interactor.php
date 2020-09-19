@@ -31,6 +31,7 @@ class Interactor implements InputBoundary
         $responseModel->is_completed = $newTodo->is_completed;
         $responseModel->created_at = $newTodo->created_at;
         $responseModel->updated_at = $newTodo->updated_at;
+        $responseModel->message = "Todo stored successfully!";
 
         return $this->outputBoundary->respond($responseModel);
     }

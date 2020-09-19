@@ -17,6 +17,12 @@ use CleanLaravel\Modules\Todo\GetOne\EntityGateway as GetOneTodoEntityGateway;
 use App\Http\Presenters\Todo\GetOneTodoPresenter;
 use CleanLaravel\Modules\Todo\GetOne\Models\RequestModel as GetOneTodoRequestModel;
 
+use App\Http\Requests\Todo\Update;
+use CleanLaravel\Modules\Todo\Update\Interactor as UpdateTodoInteractor;
+use CleanLaravel\Modules\Todo\Update\EntityGateway as UpdateTodoEntityGateway;
+use App\Http\Presenters\Todo\UpdateTodoPresenter;
+use CleanLaravel\Modules\Todo\Update\Models\RequestModel as UpdateTodoRequestModel;
+
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -82,9 +88,19 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
-        //
+        $interactor = new UpdateTodoInteractor(
+          new UpdateTodoEntityGateway(),
+          new UpdateTodoPresenter()
+        );
+
+        $requestModel = new UpdateTodoRequestModel();
+        $requestModel->id = $id;
+        $requestModel->todo = $request->todo;
+        $requestModel->is_completed = $request->is_completed;
+
+        return $interactor->update($requestModel);
     }
 
     /**
