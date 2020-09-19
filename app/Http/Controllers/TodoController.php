@@ -23,6 +23,11 @@ use CleanLaravel\Modules\Todo\Update\EntityGateway as UpdateTodoEntityGateway;
 use App\Http\Presenters\Todo\UpdateTodoPresenter;
 use CleanLaravel\Modules\Todo\Update\Models\RequestModel as UpdateTodoRequestModel;
 
+use CleanLaravel\Modules\Todo\Delete\Interactor as DeleteTodoInteractor;
+use CleanLaravel\Modules\Todo\Delete\EntityGateway as DeleteTodoEntityGateway;
+use App\Http\Presenters\Todo\DeleteTodoPresenter;
+use CleanLaravel\Modules\Todo\Delete\Models\RequestModel as DeleteTodoRequestModel;
+
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
@@ -111,6 +116,14 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $interactor = new DeleteTodoInteractor(
+            new DeleteTodoEntityGateway(),
+            new DeleteTodoPresenter()
+        );
+
+        $requestModel = new DeleteTodoRequestModel();
+        $requestModel->id = $id;
+
+        return $interactor->delete($requestModel);
     }
 }
