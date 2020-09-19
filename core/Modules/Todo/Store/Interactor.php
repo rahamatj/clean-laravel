@@ -25,14 +25,19 @@ class Interactor implements InputBoundary
     {
         $newTodo = $this->entityGateway->store($requestModel);
 
+        return $this->outputBoundary->respond($this->makeResponseModel($newTodo));
+    }
+
+    protected function makeResponseModel($todo)
+    {
         $responseModel = new ResponseModel();
-        $responseModel->id = $newTodo->id;
-        $responseModel->todo = $newTodo->todo;
-        $responseModel->is_completed = $newTodo->is_completed;
-        $responseModel->created_at = $newTodo->created_at;
-        $responseModel->updated_at = $newTodo->updated_at;
+        $responseModel->id = $todo->id;
+        $responseModel->todo = $todo->todo;
+        $responseModel->is_completed = $todo->is_completed;
+        $responseModel->created_at = $todo->created_at;
+        $responseModel->updated_at = $todo->updated_at;
         $responseModel->message = "Todo stored successfully!";
 
-        return $this->outputBoundary->respond($responseModel);
+        return $responseModel;
     }
 }

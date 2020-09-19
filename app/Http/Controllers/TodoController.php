@@ -28,7 +28,10 @@ use CleanLaravel\Modules\Todo\Delete\EntityGateway as DeleteTodoEntityGateway;
 use App\Http\Presenters\Todo\DeleteTodoPresenter;
 use CleanLaravel\Modules\Todo\Delete\Models\RequestModel as DeleteTodoRequestModel;
 
-use Illuminate\Http\Request;
+use CleanLaravel\Modules\Todo\ToggleIsCompleted\Interactor as ToggleIsCompletedInteractor;
+use CleanLaravel\Modules\Todo\ToggleIsCompleted\EntityGateway as ToggleIsCompletedEntityGateway;
+use App\Http\Presenters\Todo\ToggleIsCompletedPresenter;
+use CleanLaravel\Modules\Todo\ToggleIsCompleted\Models\RequestModel as ToggleIsCompletedRequestModel;
 
 class TodoController extends Controller
 {
@@ -60,11 +63,16 @@ class TodoController extends Controller
             new StoreTodoPresenter()
         );
 
+        return $interactor->store($this->makeStoreRequestModel($request));
+    }
+
+    protected function makeStoreRequestModel(Store $request)
+    {
         $requestModel = new StoreTodoRequestModel();
         $requestModel->todo = $request->todo;
         $requestModel->is_completed = $request->is_completed ?: false;
 
-        return $interactor->store($requestModel);
+        return $requestModel;
     }
 
     /**
@@ -80,10 +88,15 @@ class TodoController extends Controller
           new GetOneTodoPresenter()
         );
 
+        return $interactor->getOne($this->makeGetOneTodoRequestModel($id));
+    }
+
+    protected function makeGetOneTodoRequestModel($id)
+    {
         $requestModel = new GetOneTodoRequestModel();
         $requestModel->id = $id;
 
-        return $interactor->getOne($requestModel);
+        return $requestModel;
     }
 
     /**
@@ -100,12 +113,17 @@ class TodoController extends Controller
           new UpdateTodoPresenter()
         );
 
+        return $interactor->update($this->makeUpdateTodoRequestModel($request, $id));
+    }
+
+    protected function makeUpdateTodoRequestModel(Update $request, $id)
+    {
         $requestModel = new UpdateTodoRequestModel();
         $requestModel->id = $id;
         $requestModel->todo = $request->todo;
         $requestModel->is_completed = $request->is_completed;
 
-        return $interactor->update($requestModel);
+        return $requestModel;
     }
 
     /**
@@ -121,9 +139,32 @@ class TodoController extends Controller
             new DeleteTodoPresenter()
         );
 
+        return $interactor->delete($this->makeDeleteTodoRequestModel($id));
+    }
+
+    protected function makeDeleteTodoRequestModel($id)
+    {
         $requestModel = new DeleteTodoRequestModel();
         $requestModel->id = $id;
 
-        return $interactor->delete($requestModel);
+        return $requestModel;
+    }
+
+    public function toggleIsCompleted($id)
+    {
+        $interactor = new ToggleIsCompletedInteractor(
+            new ToggleIsCompletedEntityGateway(),
+            new ToggleIsCompletedPresenter()
+        );
+
+        return $interactor->toggle($this->makeToggleIsCompletedRequestModel($id));
+    }
+
+    protected function makeToggleIsCompletedRequestModel($id)
+    {
+        $requestModel = new ToggleIsCompletedRequestModel();
+        $requestModel->id = $id;
+
+        return $requestModel;
     }
 }

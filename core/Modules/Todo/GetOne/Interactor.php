@@ -25,6 +25,11 @@ class Interactor implements InputBoundary
     {
         $todo = $this->entityGateway->getOne($requestModel);
 
+        return $this->outputBoundary->respond($this->makeResponseModel($todo));
+    }
+
+    protected function makeResponseModel($todo)
+    {
         $responseModel = new ResponseModel();
         $responseModel->id = $todo->id;
         $responseModel->todo = $todo->todo;
@@ -32,6 +37,6 @@ class Interactor implements InputBoundary
         $responseModel->created_at = $todo->created_at;
         $responseModel->updated_at = $todo->updated_at;
 
-        return $this->outputBoundary->respond($responseModel);
+        return $responseModel;
     }
 }

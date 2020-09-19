@@ -25,9 +25,14 @@ class Interactor implements InputBoundary
     {
         $this->entityGateway->update($requestModel);
 
+        return $this->outputBoundary->respond($this->makeResponseModel());
+    }
+
+    protected function makeResponseModel()
+    {
         $responseModel = new ResponseModel();
         $responseModel->message = "Todo updated successfully!";
 
-        return $this->outputBoundary->respond($responseModel);
+        return $responseModel;
     }
 }

@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::resource('todos', TodoController::class)
     ->except(['create', 'edit']);
+Route::patch('/todos/{todo}/is_completed', [TodoController::class, 'toggleIsCompleted']);
